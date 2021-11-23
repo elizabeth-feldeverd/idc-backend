@@ -5,6 +5,7 @@ import requests
 import base64
 import tempfile
 from tensorflow.keras.models import load_model
+from idc.image_processing import create_img_array
 
 
 model = load_model("model.h5")
@@ -23,17 +24,13 @@ if png:
     print(type(png))
     type(png.read())
     image = Image.open(png)
-    png_array = np.array(image) / 255
 
-    pics = np.reshape(png_array, (1, 50, 50, 3))
+    array_of_images = create_img_array(image)
 
-    prediction = float(model.predict(pics)[:, 0][0])
+    scaled_images = array_of_images / 255
 
-    print(prediction)
-    #     print(type(file_png_bytes))
+    prediction = model.predict(scaled_images)[:, 0]
 
-    #     np_fullsize = np.asarray(file_png_bytes)
+    r = prediction.tolist()
 
-    # bytes_image = base64.b64encode(X[0])
-    # url = "http://127.0.0.1:8000/predict"
-    # response = requests.post(url, data={"file": bytes_image})
+    print(r)

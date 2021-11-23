@@ -5,6 +5,7 @@ import matplotlib.pyplot as plt
 from PIL import Image
 from numpy import asarray
 
+
 def create_img_array(image):
     # Convert image to nparray
     X = asarray(image)
@@ -18,13 +19,13 @@ def create_img_array(image):
     pad[:height, :width, :] = X
     # Create an array of 50 x 50 images
     img_array = np.zeros(
-        (int(pad_height / 50) * int(pad_width / 50), 50, 50, 3),
-        dtype=np.uint8)
+        (int(pad_height / 50) * int(pad_width / 50), 50, 50, 3), dtype=np.uint8
+    )
     for h in range(int(pad_height / 50)):
         for w in range(int(pad_width / 50)):
-            img_array[h * int(pad_width / 50) +
-                      w, :, :, :] = pad[h * 50:(h + 1) * 50,
-                                        w * 50:(w + 1) * 50, :]
+            img_array[h * int(pad_width / 50) + w, :, :, :] = pad[
+                h * 50 : (h + 1) * 50, w * 50 : (w + 1) * 50, :
+            ]
     return img_array
 
 
@@ -34,13 +35,15 @@ def create_img_from_array(array, pad_height, pad_width):
     width_div_50 = int(pad_width / 50)
     for h in range(int(pad_height / 50)):
         for w in range(int(pad_width / 50)):
-            new_img_array[h * 50:(h + 1) * 50,
-                          w * 50:(w + 1) * 50, :] = array[h * width_div_50 + w]
+            new_img_array[h * 50 : (h + 1) * 50, w * 50 : (w + 1) * 50, :] = array[
+                h * width_div_50 + w
+            ]
     return new_img_array
 
-if __name__ == "__main__":
-    image = Image.open('../idc/data/10253_idx5.png') # Change for actual images
-    data = create_img_array(image)
-    print(data.shape)
-    new_img_array = create_img_from_array(data, 2250, 2750)
-    print(new_img_array.shape)
+
+# if __name__ == "__main__":
+#     image = Image.open('../idc/data/10253_idx5.png') # Change for actual images
+#     data = create_img_array(image)
+#     print(data.shape)
+#     new_img_array = create_img_from_array(data, 2250, 2750)
+#     print(new_img_array.shape)
