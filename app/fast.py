@@ -9,10 +9,6 @@ from typing import Optional
 import base64
 
 
-# class Item(BaseModel):
-#     picbytes: bytes
-
-
 app = FastAPI()
 
 
@@ -23,12 +19,6 @@ app.add_middleware(
     allow_methods=["*"],  # Allows all methods
     allow_headers=["*"],  # Allows all headers
 )
-
-
-@app.post("/items/")
-async def create_item(file: bytes = File(...)):
-    # decoding
-    return file
 
 
 @app.get("/")
