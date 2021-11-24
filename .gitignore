@@ -8,3 +8,6 @@ raw_data/
 .env
 *.npy
 *Zone.Identifier
+*.jpg
+*.png
+*.xml
