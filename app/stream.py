@@ -5,7 +5,7 @@ import requests
 import base64
 import tempfile
 from tensorflow.keras.models import load_model
-from idc.image_processing import create_img_array
+from idc.processing import split
 
 
 model = load_model("model.h5")
@@ -25,7 +25,7 @@ if png:
     type(png.read())
     image = Image.open(png)
 
-    array_of_images = create_img_array(image)
+    array_of_images = split(image)
 
     scaled_images = array_of_images / 255
 

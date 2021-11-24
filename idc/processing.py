@@ -6,7 +6,7 @@ from PIL import Image
 from numpy import asarray
 
 
-def create_img_array(image):
+def split(image):
     # Convert image to nparray
     X = asarray(image)
     # Get image dimensions
@@ -29,7 +29,7 @@ def create_img_array(image):
     return img_array
 
 
-def create_img_from_array(array, pad_height, pad_width):
+def stitch(array, pad_height, pad_width):
     # Create an array of 255 that is the same size as the padded image
     new_img_array = np.ones((pad_height, pad_width, 3), dtype=np.uint8) * 255
     width_div_50 = int(pad_width / 50)
