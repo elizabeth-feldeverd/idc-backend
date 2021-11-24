@@ -4,11 +4,9 @@ import numpy as np
 import requests
 import base64
 import tempfile
-from tensorflow.keras.models import load_model
 from idc.processing import split
+import requests
 
-
-model = load_model("model.h5")
 
 st.write("""bro""")
 
@@ -18,19 +16,15 @@ png = st.file_uploader("Upload a PNG image", type=([".png"]))
 
 if png:
 
+    st.image(png)  # display image
+
     # preprocessing
-
-    st.image(png)
-    print(type(png))
-    type(png.read())
     image = Image.open(png)
-
     array_of_images = split(image)
 
-    scaled_images = array_of_images / 255
+    bytes_image = base64.b64encode(array_of_images)
 
-    prediction = model.predict(scaled_images)[:, 0]
+    url = "http://127.0.0.1:8000/predict"
+    response = requests.post(url, data={"file": bytes_image})
 
-    r = prediction.tolist()
-
-    print(r)
+    print(response.json())
