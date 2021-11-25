@@ -1,5 +1,7 @@
-from fastapi import FastAPI, File, UploadFile
+from fastapi import FastAPI, File, UploadFile, Response
+from fastapi.responses import FileResponse
 from fastapi.middleware.cors import CORSMiddleware
+from keras.utils.io_utils import path_to_string
 from tensorflow.keras.models import load_model
 import numpy as np
 from pydantic import BaseModel
@@ -7,8 +9,9 @@ from PIL import Image  # encode into a bytesIO and #decode
 from io import BytesIO
 from typing import Optional
 import base64
-from idc.processing import split
-from idc.gradcam import make_gradcam_heatmap, save_and_display_gradcam
+from idc.processing import split, stitch
+from idc.gradcam import make_heatmap, superimpose_heatmap
+import matplotlib.pyplot as plt
 
 
 app = FastAPI()
@@ -39,27 +42,36 @@ def predict(file: bytes = File(...)):
 
     model = load_model("model.h5")
 
-    prediction = float(model.predict(pics)[:, 0][0])
+    prediction = model.predict(pics)[:, 0].tolist()
 
-    prediction = [float(num) for num in model.predict(pics)[:, 0]]
     return {"prediction": prediction}
 
 
 @app.post("/annotate")
-def annotate(file: bytes = File(...)):
+def annotate(file: UploadFile = File(...)):
+    # image = file.file.read()
+    image = Image.open(file.file)
+    height, width, _ = np.asarray(image).shape
 
-    file_decode = base64.b64decode(file)
-    long_array = np.frombuffer(file_decode, dtype=np.uint8)
+    height = int(np.ceil(height / 50))
+    width = int(np.ceil(width / 50))
+    print(height)
+    print(width)
 
-    count = long_array.shape[0] // 7500
-    pics = np.reshape(long_array, (count, 50, 50, 3)) / 255
-
+    pics = split(image) / 255
     model = load_model("model.h5")
+    heatmap = make_heatmap(pics, model)
+    grad_cam = superimpose_heatmap(pics, heatmap)
 
-    prediction = float(model.predict(pics)[:, 0][0])
+    # high_image = np.reshape(grad_cam, (height * 50, width * 50, 3)) Why does this not work?
+    high_image = stitch(grad_cam, height * 50, width * 50)
 
-    prediction = [float(num) for num in model.predict(pics)[:, 0]]
-    return {"prediction": prediction}
+    # save the image as a png
+    im = Image.fromarray(high_image)  # this hsould be high_image
+    im.save("heat.png")
+    path = "heat.png"
+
+    return FileResponse(path)
 
 
 if __name__ == "__main__":

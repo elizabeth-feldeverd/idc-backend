@@ -11,18 +11,13 @@ from IPython.display import Image, display
 import matplotlib.pyplot as plt
 import matplotlib.cm as cm
 
-img_size = (50, 50)
-last_conv_layer_name = "conv2d_5"
 
-def make_gradcam_heatmap(img_array,
-                         model,
-                         last_conv_layer_name,
-                         pred_index=None):
+def make_heatmap(img_array, model, last_conv_layer_name="conv2d_5", pred_index=None):
     # First, we create a model that maps the input image to the activations
     # of the last conv layer as well as the output predictions
     grad_model = tf.keras.models.Model(
-        [model.inputs],
-        [model.get_layer(last_conv_layer_name).output, model.output])
+        [model.inputs], [model.get_layer(last_conv_layer_name).output, model.output]
+    )
 
     # Then, we compute the gradient of the top predicted class for our input image
     # with respect to the activations of the last conv layer
@@ -52,12 +47,12 @@ def make_gradcam_heatmap(img_array,
 
     # Normalize the heatmap between 0 & 1
     heatmap = tf.maximum(heatmap, 0) / tf.math.reduce_max(heatmap)
-    return heatmap.numpy()
+    return np.uint8(heatmap.numpy() * 255)
 
 
-def save_and_display_gradcam(img, heatmap, cam_path="cam.jpg", alpha=0.4):
+def superimpose_heatmap(img, heatmap, alpha=0.4):
     # Rescale heatmap to a range 0-255
-    heatmap = np.uint8(255 * heatmap)
+    # heatmap = np.uint8(255 * heatmap)
 
     # Use jet colormap to colorize heatmap
     jet = cm.get_cmap("jet")
@@ -69,10 +64,20 @@ def save_and_display_gradcam(img, heatmap, cam_path="cam.jpg", alpha=0.4):
     # Superimpose the heatmap on original image
     superimposed_images = jet_heatmap * alpha + img
 
+    superimposed_images = np.clip(superimposed_images, a_min=None, a_max=1)
+    superimposed_images = np.uint8(255 * superimposed_images)
+
     # Returns an array of images with with heatmaps superimposed
     return superimposed_images
 
-# if __name__ == "__main__":
-#     heatmap = make_gradcam_heatmap(img_array, model, last_conv_layer_name, pred_index=None)
-#     grad_cam = save_and_display_gradcam(X_scaled[5], heatmap, cam_path="cam.jpg", alpha=0.9)
-#     print(grad_cam[0])
+
+if __name__ == "__main__":
+    X = np.load("raw_data/X.npy") / 255
+    # img_array = np.expand_dims(X[5], 0)
+    img_array = X[0:2]
+    model = load_model("model.h5")
+
+    heatmap = make_heatmap(img_array, model)
+    grad_cam = superimpose_heatmap(img_array, heatmap)
+    plt.imshow(grad_cam[1])
+    plt.show()

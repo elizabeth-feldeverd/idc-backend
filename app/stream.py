@@ -7,24 +7,39 @@ import tempfile
 from idc.processing import split
 import requests
 
+this_probably_doesnt_work = True
 
 st.write("""bro""")
-
 
 png = st.file_uploader("Upload a PNG image", type=([".png"]))
 
 
 if png:
-
     st.image(png)  # display image
 
-    # preprocessing
-    image = Image.open(png)
-    array_of_images = split(image)
+    if this_probably_doesnt_work:
+        url = "http://127.0.0.1:8000/annotate"
 
-    bytes_image = base64.b64encode(array_of_images)
+        files = {"file": (png.name, png, "multipart/form-data")}
+        response = requests.post(url, files=files)
 
-    url = "http://127.0.0.1:8000/predict"
-    response = requests.post(url, data={"file": bytes_image})
+        # print(type(response.raw))
+        # st.image(response.raw)
+        # print(response._content)
+        # im = Image.open(response._content)
+        st.image(response._content)
 
-    print(response.json())
+        # st.image(heat)
+
+    else:
+        url = "http://127.0.0.1:8000/predict"
+
+        # preprocessing
+        image = Image.open(png)
+        array_of_images = split(image)
+
+        bytes_image = base64.b64encode(array_of_images)
+
+        response = requests.post(url, data={"file": bytes_image})
+
+        print(type(response))
