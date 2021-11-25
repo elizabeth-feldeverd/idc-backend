@@ -7,7 +7,7 @@ import tempfile
 from idc.processing import split
 import requests
 
-this_probably_doesnt_work = True
+you_want = False
 
 st.write("""bro""")
 
@@ -17,21 +17,16 @@ png = st.file_uploader("Upload a PNG image", type=([".png"]))
 if png:
     st.image(png)  # display image
 
-    if this_probably_doesnt_work:
-        url = "http://127.0.0.1:8000/annotate"
+    url = "http://127.0.0.1:8000/annotate"
 
-        files = {"file": (png.name, png, "multipart/form-data")}
-        response = requests.post(url, files=files)
+    files = {"file": (png.name, png, "multipart/form-data")}
 
-        # print(type(response.raw))
-        # st.image(response.raw)
-        # print(response._content)
-        # im = Image.open(response._content)
-        st.image(response._content)
+    # put a spinny wheel while waiting for the response
+    response = requests.post(url, files=files)
 
-        # st.image(heat)
+    st.image(response._content)
 
-    else:
+    if you_want:
         url = "http://127.0.0.1:8000/predict"
 
         # preprocessing
