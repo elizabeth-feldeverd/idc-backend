@@ -5,6 +5,7 @@ import tensorflow as tf
 from tensorflow import keras
 from PIL import Image as Image
 from keras.models import load_model
+from keras.layers import Resizing
 
 # Display
 from IPython.display import Image, display
@@ -60,6 +61,10 @@ def superimpose_heatmap(img, heatmap, alpha=1):
     # Use RGB values of the colormap
     jet_colors = jet(np.arange(256))[:, :3]
     jet_heatmap = jet_colors[heatmap]
+
+    # Resize images from size of last Conv2D layer to (50,50)
+    resize = Resizing(50,50)
+    jet_heatmap = resize(jet_heatmap)
 
     # Superimpose the heatmap on original image
     superimposed_images = jet_heatmap * alpha + img
