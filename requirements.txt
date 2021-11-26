@@ -31,5 +31,3 @@ termcolor
 python-multipart
 fastapi
 uvicorn
-streamlit
-# heroku
