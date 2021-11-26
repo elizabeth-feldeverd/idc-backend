@@ -50,7 +50,7 @@ def make_heatmap(img_array, model, last_conv_layer_name="conv2d_5", pred_index=N
     return np.uint8(heatmap.numpy() * 255)
 
 
-def superimpose_heatmap(img, heatmap, alpha=1):
+def superimpose_heatmap(img, heatmap, alpha=0.9):
     # Rescale heatmap to a range 0-255
     # heatmap = np.uint8(255 * heatmap)
 
@@ -79,5 +79,19 @@ if __name__ == "__main__":
 
     heatmap = make_heatmap(img_array, model)
     grad_cam = superimpose_heatmap(img_array, heatmap)
+
+    plt.subplot(2, 3, 1)
+    plt.imshow(img_array[0])
+    plt.subplot(2, 3, 2)
+    plt.imshow(heatmap[0])
+    plt.subplot(2, 3, 3)
+    plt.imshow(grad_cam[0])
+
+    plt.subplot(2, 3, 4)
+    plt.imshow(img_array[1])
+    plt.subplot(2, 3, 5)
+    plt.imshow(heatmap[1])
+    plt.subplot(2, 3, 6)
     plt.imshow(grad_cam[1])
+
     plt.show()
