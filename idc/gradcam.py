@@ -51,7 +51,8 @@ def make_heatmap(img_array, model, last_conv_layer_name="conv2d_5", pred_index=N
     return np.uint8(heatmap.numpy() * 255)
 
 
-def superimpose_heatmap(img, heatmap, alpha=1):
+def superimpose_heatmap(img, heatmap, alpha=5, beta=0.9):
+
     # Rescale heatmap to a range 0-255
     # heatmap = np.uint8(255 * heatmap)
 
@@ -67,7 +68,7 @@ def superimpose_heatmap(img, heatmap, alpha=1):
     jet_heatmap = resize(jet_heatmap)
 
     # Superimpose the heatmap on original image
-    superimposed_images = jet_heatmap * alpha + img
+    superimposed_images = jet_heatmap * alpha + img * beta
 
     superimposed_images = np.clip(superimposed_images, a_min=None, a_max=1)
     superimposed_images = np.uint8(255 * superimposed_images)
