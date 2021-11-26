@@ -53,18 +53,21 @@ def annotate(file: UploadFile = File(...)):
     image = Image.open(file.file)
     height, width, _ = np.asarray(image).shape
 
-    height = int(np.ceil(height / 50))
-    width = int(np.ceil(width / 50))
-    print(height)
-    print(width)
+    round_height = int(np.ceil(height / 50))
+    round_width = int(np.ceil(width / 50))
 
     pics = split(image) / 255
     model = load_model("model.h5")
     heatmap = make_heatmap(pics, model)
     grad_cam = superimpose_heatmap(pics, heatmap)
 
-    # high_image = np.reshape(grad_cam, (height * 50, width * 50, 3)) Why does this not work?
-    high_image = stitch(grad_cam, height * 50, width * 50)
+    # high_image = np.reshape(grad_cam, (round_height * 50, round_width * 50, 3)) Why does this not work?
+    high_image = stitch(grad_cam, round_height * 50, round_width * 50)[
+        :height,
+        :width,
+    ]
+    print(f"input shape is: ({height}, {width}, 3)")
+    print(f"output shape is {high_image.shape}")
 
     # save the image as a png
     im = Image.fromarray(high_image)  # this hsould be high_image
