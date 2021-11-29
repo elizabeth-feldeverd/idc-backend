@@ -57,7 +57,7 @@ def annotate(file: UploadFile = File(...)):
     round_width = int(np.ceil(width / 50))
 
     pics = split(image) / 255
-    model = load_model("models/model6.h5")
+    model = load_model("model.h5")
     heatmap = make_heatmap(pics, model)
     grad_cam = superimpose_heatmap(pics, heatmap)
 
