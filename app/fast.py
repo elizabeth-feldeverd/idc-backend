@@ -1,13 +1,15 @@
-from fastapi import FastAPI, File, UploadFile, Response
+from fastapi import FastAPI, File, UploadFile
 from fastapi.responses import FileResponse
 from fastapi.middleware.cors import CORSMiddleware
 from keras.utils.io_utils import path_to_string
 from tensorflow.keras.models import load_model
 import numpy as np
-from pydantic import BaseModel
+
+# from pydantic import BaseModel
 from PIL import Image  # encode into a bytesIO and #decode
-from io import BytesIO
-from typing import Optional
+
+# from io import BytesIO
+# from typing import Optional
 import base64
 from idc.processing import split, stitch
 from idc.gradcam import make_heatmap, superimpose_heatmap
@@ -15,6 +17,7 @@ import matplotlib.pyplot as plt
 
 
 app = FastAPI()
+model = load_model("model.h5")
 
 
 app.add_middleware(
@@ -57,7 +60,6 @@ def annotate(file: UploadFile = File(...)):
     round_width = int(np.ceil(width / 50))
 
     pics = split(image) / 255
-    model = load_model("model.h5")
     heatmap = make_heatmap(pics, model)
     grad_cam = superimpose_heatmap(pics, heatmap)
 
@@ -66,6 +68,7 @@ def annotate(file: UploadFile = File(...)):
         :height,
         :width,
     ]
+
     print(f"input shape is: ({height}, {width}, 3)")
     print(f"output shape is {high_image.shape}")
 
