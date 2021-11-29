@@ -56,3 +56,9 @@ pypi:
 
 run_api:
 	uvicorn app.fast:app --reload  # load web server with code autoreload
+
+docker:
+	docker build -t eu.gcr.io/$PROJECT_ID/$DOCKER_IMAGE_NAME .
+
+gcloud_run:
+	-@gcloud run deploy --image eu.gcr.io/$PROJECT_ID/$DOCKER_IMAGE_NAME --platform managed --region europe-west1
