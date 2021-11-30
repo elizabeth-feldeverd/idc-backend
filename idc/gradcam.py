@@ -12,7 +12,7 @@ import matplotlib.pyplot as plt
 import matplotlib.cm as cm
 
 
-def make_heatmap(img_array, model, last_conv_layer_name="conv2d_6", pred_index=None):
+def make_heatmap(img_array, model, last_conv_layer_name="conv2d_41", pred_index=None):
     # First, we create a model that maps the input image to the activations
     # of the last conv layer as well as the output predictions
     grad_model = tf.keras.models.Model(
@@ -50,7 +50,7 @@ def make_heatmap(img_array, model, last_conv_layer_name="conv2d_6", pred_index=N
     return np.uint8(heatmap.numpy() * 255)
 
 
-def superimpose_heatmap(img, heatmap, alpha=1, beta=1):
+def superimpose_heatmap(img, heatmap, alpha=5, beta=1):
     # Rescale heatmap to a range 0-255
     # heatmap = np.uint8(255 * heatmap)
 
@@ -86,6 +86,8 @@ if __name__ == "__main__":
 
     heatmap = make_heatmap(img_array, model)
     grad_cam = superimpose_heatmap(img_array, heatmap)
+
+    # print(heatmap[0])  # checking to see what the blue values look like
 
     plt.subplot(2, 3, 1)
     plt.imshow(img_array[0])
