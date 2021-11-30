@@ -12,7 +12,7 @@ import matplotlib.pyplot as plt
 import matplotlib.cm as cm
 
 
-def make_heatmap(img_array, model, last_conv_layer_name="conv2d_41", pred_index=None):
+def make_heatmap(img_array, model, last_conv_layer_name="conv2d_3", pred_index=None):
     # First, we create a model that maps the input image to the activations
     # of the last conv layer as well as the output predictions
     grad_model = tf.keras.models.Model(
@@ -50,7 +50,7 @@ def make_heatmap(img_array, model, last_conv_layer_name="conv2d_41", pred_index=
     return np.uint8(heatmap.numpy() * 255)
 
 
-def superimpose_heatmap(img, heatmap, alpha=5, beta=1):
+def superimpose_heatmap(img, heatmap, alpha=1, beta=0):
     # Rescale heatmap to a range 0-255
     # heatmap = np.uint8(255 * heatmap)
 
@@ -68,10 +68,11 @@ def superimpose_heatmap(img, heatmap, alpha=5, beta=1):
     # Superimpose the heatmap on original image
     superimposed_images = jet_heatmap * alpha + img * beta
 
-    superimposed_images = tf.maximum(superimposed_images, 0) / tf.math.reduce_max(
-        superimposed_images
-    )
-    # superimposed_images = np.clip(superimposed_images, a_min=None, a_max=1)
+    if beta != 0:
+        superimposed_images = tf.maximum(superimposed_images, 0) / tf.math.reduce_max(
+            superimposed_images
+        )
+
     superimposed_images = np.uint8(255 * superimposed_images)
 
     # Returns an array of images with with heatmaps superimposed
