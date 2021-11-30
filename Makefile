@@ -61,4 +61,8 @@ docker:
 	docker build -t eu.gcr.io/$PROJECT_ID/$DOCKER_IMAGE_NAME .
 
 gcloud_run:
-	-@gcloud run deploy --image eu.gcr.io/$PROJECT_ID/$DOCKER_IMAGE_NAME --platform managed --region europe-west1
+	-@gcloud run deploy \
+			--image eu.gcr.io/$PROJECT_ID/$DOCKER_IMAGE_NAME \
+			--platform managed \
+			--region europe-west1 \
+			--set-env-vars "GOOGLE_APPLICATION_CREDENTIALS=/credentials.json"

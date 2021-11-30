@@ -80,5 +80,5 @@ def annotate(file: UploadFile = File(...)):
     return FileResponse(path)
 
 
-if __name__ == "__main__":
-    annotate()
+# if __name__ == "__main__":
+#     annotate()
