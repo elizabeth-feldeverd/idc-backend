@@ -1,14 +1,12 @@
 import numpy as np
-import matplotlib.pyplot as plt
+
+# import matplotlib.pyplot as plt
 import tensorflow as tf
 from tensorflow import keras
-from PIL import Image
-from keras.models import load_model
-from keras.layers import Resizing
 
-# Display
-# from IPython.display import Image, display
-import matplotlib.pyplot as plt
+# from PIL import Image
+# from keras.models import load_model
+from keras.layers import Resizing
 import matplotlib.cm as cm
 
 
