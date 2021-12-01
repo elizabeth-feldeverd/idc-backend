@@ -79,29 +79,29 @@ def superimpose_heatmap(img, heatmap, alpha=1, beta=0):
     return superimposed_images
 
 
-if __name__ == "__main__":
-    X = np.load("raw_data/X.npy") / 255
-    # img_array = np.expand_dims(X[5], 0)
-    img_array = X[0:2]
-    model = load_model("model.h5")
+# if __name__ == "__main__":
+#     X = np.load("raw_data/X.npy") / 255
+#     # img_array = np.expand_dims(X[5], 0)
+#     img_array = X[0:2]
+#     model = load_model("model.h5")
 
-    heatmap = make_heatmap(img_array, model)
-    grad_cam = superimpose_heatmap(img_array, heatmap)
+#     heatmap = make_heatmap(img_array, model)
+#     grad_cam = superimpose_heatmap(img_array, heatmap)
 
-    # print(heatmap[0])  # checking to see what the blue values look like
+#     # print(heatmap[0])  # checking to see what the blue values look like
 
-    plt.subplot(2, 3, 1)
-    plt.imshow(img_array[0])
-    plt.subplot(2, 3, 2)
-    plt.imshow(heatmap[0])
-    plt.subplot(2, 3, 3)
-    plt.imshow(grad_cam[0])
+#     plt.subplot(2, 3, 1)
+#     plt.imshow(img_array[0])
+#     plt.subplot(2, 3, 2)
+#     plt.imshow(heatmap[0])
+#     plt.subplot(2, 3, 3)
+#     plt.imshow(grad_cam[0])
 
-    plt.subplot(2, 3, 4)
-    plt.imshow(img_array[1])
-    plt.subplot(2, 3, 5)
-    plt.imshow(heatmap[1])
-    plt.subplot(2, 3, 6)
-    plt.imshow(grad_cam[1])
+#     plt.subplot(2, 3, 4)
+#     plt.imshow(img_array[1])
+#     plt.subplot(2, 3, 5)
+#     plt.imshow(heatmap[1])
+#     plt.subplot(2, 3, 6)
+#     plt.imshow(grad_cam[1])
 
-    plt.show()
+#     plt.show()

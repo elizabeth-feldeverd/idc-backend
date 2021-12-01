@@ -5,19 +5,19 @@ from keras.utils.io_utils import path_to_string
 from tensorflow.keras.models import load_model
 import numpy as np
 
-# from pydantic import BaseModel
 from PIL import Image  # encode into a bytesIO and #decode
 
-# from io import BytesIO
-# from typing import Optional
 import base64
 from idc.processing import split, stitch
 from idc.gradcam import make_heatmap, superimpose_heatmap
 import matplotlib.pyplot as plt
+from google.cloud import storage
+import uuid
 
 
 app = FastAPI()
 model = load_model("model.h5")
+IDC_BUCKET = "idc_bucket"
 
 
 app.add_middleware(
@@ -72,12 +72,19 @@ def annotate(file: UploadFile = File(...)):
     print(f"input shape is: ({height}, {width}, 3)")
     print(f"output shape is {high_image.shape}")
 
+    myuuid = uuid.uuid4()
+    path = f"{myuuid}.png"
+
     # save the image as a png
     im = Image.fromarray(high_image)  # this hsould be high_image
-    im.save("heat.png")
-    path = "heat.png"
+    im.save(path)
 
-    return FileResponse(path)
+    gcs = storage.Client()
+    bucket = gcs.get_bucket(IDC_BUCKET)
+    blob = bucket.blob(path)
+    blob.upload_from_filename(path)
+
+    return {"url": blob.public_url}
 
 
 # if __name__ == "__main__":
