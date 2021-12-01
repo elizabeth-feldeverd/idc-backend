@@ -58,14 +58,14 @@ run_api:
 	uvicorn app.fast:app --reload  # load web server with code autoreload
 
 docker:
-	docker build -t eu.gcr.io/steady-atlas-328003/idcimage .
+	docker build -t eu.gcr.io/steady-atlas-328003/idc .
 
 push_image:
-	docker push eu.gcr.io/steady-atlas-328003/idcimage
+	docker push eu.gcr.io/steady-atlas-328003/idc
 
 gcloud_run:
 	gcloud run deploy \
-			--image eu.gcr.io/steady-atlas-328003/idcimage \
-			--platform managed \
-			--region europe-west1 \
-			--set-env-vars "GOOGLE_APPLICATION_CREDENTIALS=/credentials.json"
+	--image eu.gcr.io/steady-atlas-328003/idc \
+	--platform managed \
+	--region europe-west1 \
+	--set-env-vars "GOOGLE_APPLICATION_CREDENTIALS=/credentials.json"

@@ -36,3 +36,4 @@ uvicorn
 Pillow
 matplotlib
 pandas # for testing
+google-cloud-storage
