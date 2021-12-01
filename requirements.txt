@@ -7,7 +7,6 @@ pip>=9
 # data science
 numpy
 # pandas
-scikit-learn
 tensorflow
 keras
 
@@ -20,7 +19,7 @@ keras
 
 # API
 # gcsfs
-# google-cloud-storage
+google-cloud-storage
 # mlflow
 # s3fs
 
@@ -35,4 +34,3 @@ fastapi
 uvicorn
 Pillow
 matplotlib
-pandas # for testing

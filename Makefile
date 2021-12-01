@@ -57,12 +57,15 @@ pypi:
 run_api:
 	uvicorn app.fast:app --reload  # load web server with code autoreload
 
-# docker:
-# 	docker build -t eu.gcr.io/$(PROJECT_ID)/$(DOCKER_IMAGE_NAME) .
+docker:
+	docker build -t eu.gcr.io/steady-atlas-328003/idc .
 
-# gcloud_run:
-# 	-@gcloud run deploy \
-# 			--image eu.gcr.io/$PROJECT_ID/$DOCKER_IMAGE_NAME \
-# 			--platform managed \
-# 			--region europe-west1 \
-# 			--set-env-vars "GOOGLE_APPLICATION_CREDENTIALS=/credentials.json"
+push_image:
+	docker push eu.gcr.io/steady-atlas-328003/idc
+
+gcloud_run:
+	gcloud run deploy \
+	--image eu.gcr.io/steady-atlas-328003/idc \
+	--platform managed \
+	--region europe-west1 \
+	--set-env-vars "GOOGLE_APPLICATION_CREDENTIALS=/credentials.json"
