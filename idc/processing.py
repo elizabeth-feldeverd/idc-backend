@@ -1,5 +1,5 @@
+# from PIL import Image
 import numpy as np
-from PIL import Image
 from numpy import asarray
 
 
@@ -38,9 +38,9 @@ def stitch(array, pad_height, pad_width):
     return new_img_array
 
 
-if __name__ == "__main__":
-    image = Image.open("../idc/data/10253_idx5.png")  # Change for actual images
-    data = split(image)
-    print(data.shape)
-    new_img_array = stitch(data, 2250, 2750)
-    print(new_img_array.shape)
+# if __name__ == "__main__":
+#     image = Image.open("../idc/data/10253_idx5.png")  # Change for actual images
+#     data = split(image)
+#     print(data.shape)
+#     new_img_array = stitch(data, 2250, 2750)
+#     print(new_img_array.shape)

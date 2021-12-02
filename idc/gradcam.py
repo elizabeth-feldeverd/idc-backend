@@ -1,13 +1,9 @@
 import numpy as np
+import tensorflow as tf
+from tensorflow.keras.layers import Resizing
+import matplotlib.cm as cm
 
 # import matplotlib.pyplot as plt
-import tensorflow as tf
-from tensorflow import keras
-
-# from PIL import Image
-# from keras.models import load_model
-from keras.layers import Resizing
-import matplotlib.cm as cm
 
 
 def make_heatmap(img_array, model, last_conv_layer_name="conv2d_3", pred_index=None):
@@ -48,7 +44,7 @@ def make_heatmap(img_array, model, last_conv_layer_name="conv2d_3", pred_index=N
     return np.uint8(heatmap.numpy() * 255)
 
 
-def superimpose_heatmap(img, heatmap, alpha=1, beta=1):
+def superimpose_heatmap(img, heatmap, idc_thresh=0.4524):
     # Resize images from size of last Conv2D layer to (50, 50)
     resize = Resizing(50, 50)
     heatmap = resize(np.expand_dims(heatmap, -1))
@@ -58,21 +54,22 @@ def superimpose_heatmap(img, heatmap, alpha=1, beta=1):
 
     reshaped_hm = heatmap.numpy().reshape(-1, 50, 50)
 
-    jet_heatmap = jet(reshaped_hm/255)[:,:,:,:3]
+    jet_heatmap = jet(reshaped_hm / 255)[:, :, :, :3]
 
     # create mask
-    mask = heatmap > (0.44 *255)
+    mask = heatmap > (idc_thresh * 255)
     mask = tf.cast(mask, tf.int32).numpy()
-    mask = np.repeat(mask, repeats=3 ,axis=3)
+    mask = np.repeat(mask, repeats=3, axis=3)
 
-    superimposed_images = mask * jet_heatmap + (1 - mask)* img
+    superimposed_images = mask * jet_heatmap + (1 - mask) * img
 
     superimposed_images = tf.maximum(superimposed_images, 0) / tf.math.reduce_max(
-            superimposed_images
-        )
+        superimposed_images
+    )
 
     # Returns an array of images with with heatmaps superimposed
     return np.uint8(255 * superimposed_images)
+
 
 # if __name__ == "__main__":
 #     X = np.load("raw_data/X.npy") / 255

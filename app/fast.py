@@ -2,9 +2,7 @@ from fastapi import FastAPI, File, UploadFile
 from fastapi.middleware.cors import CORSMiddleware
 from tensorflow.keras.models import load_model
 import numpy as np
-
-from PIL import Image  # encode into a bytesIO and #decode
-
+from PIL import Image
 from idc.processing import split, stitch
 from idc.gradcam import make_heatmap, superimpose_heatmap
 from idc.report import model_report, recommend
