@@ -1,14 +1,20 @@
-# Data analysis
+# Project overview
 - Project title: Predicting IDC in Breast Cancer Histology Images
 
 - Authors: Jack Claar, Elizabeth Feldeverd, and Nadia Yap
 
 - Description: The objective of this project is to identify invasive ductal carcinoma (IDC) within breast histology images using a
-Convolutional Neural Network (CNN) model. This project was completed as part of the Le Wagon Tokyo Data Science course (Batch #728).
+Convolutional Neural Network (CNN) model. The probabilities determined by the model are then used to generate a heatmap using Grad CAM. The heatmap is superimposed on the original histology image, highlighting the regions of concern.
 
 - Data Source: Whole-slide breast cancer specimens at 40X were originally obtained and annotated by Cruz-Roa et al. (2014). For this project, we used the smaller "Breast Histology Images" dataset available on Kaggle.
 
-- Type of analysis: Our model determines the probability of IDC using a CNN model. The probabilities are then used to generate a heatmap using Grad CAM.
+- Performance:
+Recall:             0.84964
+Precision:          0.74089
+F1 score:           0.79155
+Balanced Accuracy:  0.77427
+
+- This project was completed as part of the Le Wagon Tokyo Data Science course (Batch #728). This model is for educational purposes only and should not be used as a diagnostic tool.
 
 # Startup the project
 
