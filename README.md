@@ -10,7 +10,10 @@ Convolutional Neural Network (CNN) model. The probabilities determined by the mo
 
 - Performance: Our model can detect IDC with 84.9% recall and 74.1% precision. The F1 score is 0.792 and the balanced accuracy is 0.774.
 
+- Our app can be found here: https://share.streamlit.io/jkclaar/idc-frontend/app.py
+
 - This project was completed as part of the Le Wagon Tokyo Data Science course (Batch #728). This model is for educational purposes only and should not be used as a diagnostic tool.
+
 
 # Startup the project
 
