@@ -48,34 +48,31 @@ def make_heatmap(img_array, model, last_conv_layer_name="conv2d_3", pred_index=N
     return np.uint8(heatmap.numpy() * 255)
 
 
-def superimpose_heatmap(img, heatmap, alpha=1, beta=0):
-    # Rescale heatmap to a range 0-255
-    # heatmap = np.uint8(255 * heatmap)
+def superimpose_heatmap(img, heatmap, alpha=1, beta=1):
+    # Resize images from size of last Conv2D layer to (50, 50)
+    resize = Resizing(50, 50)
+    heatmap = resize(np.expand_dims(heatmap, -1))
 
     # Use jet colormap to colorize heatmap
     jet = cm.get_cmap("jet")
 
-    # Use RGB values of the colormap
-    jet_colors = jet(np.arange(256))[:, :3]
-    jet_heatmap = jet_colors[heatmap]
+    reshaped_hm = heatmap.numpy().reshape(-1, 50, 50)
 
-    # Resize images from size of last Conv2D layer to (50, 50)
-    resize = Resizing(50, 50)
-    jet_heatmap = resize(jet_heatmap)
+    jet_heatmap = jet(reshaped_hm/255)[:,:,:,:3]
 
-    # Superimpose the heatmap on original image
-    superimposed_images = jet_heatmap * alpha + img * beta
+    # create mask
+    mask = heatmap > (0.44 *255)
+    mask = tf.cast(mask, tf.int32).numpy()
+    mask = np.repeat(mask, repeats=3 ,axis=3)
 
-    if beta != 0:
-        superimposed_images = tf.maximum(superimposed_images, 0) / tf.math.reduce_max(
+    superimposed_images = mask * jet_heatmap + (1 - mask)* img
+
+    superimposed_images = tf.maximum(superimposed_images, 0) / tf.math.reduce_max(
             superimposed_images
         )
 
-    superimposed_images = np.uint8(255 * superimposed_images)
-
     # Returns an array of images with with heatmaps superimposed
-    return superimposed_images
-
+    return np.uint8(255 * superimposed_images)
 
 # if __name__ == "__main__":
 #     X = np.load("raw_data/X.npy") / 255
