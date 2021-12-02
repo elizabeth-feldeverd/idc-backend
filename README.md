@@ -1,10 +1,14 @@
 # Data analysis
-- Document here the project: idc
-- Description: Project Description
-- Data Source:
-- Type of analysis:
+- Project title: Predicting IDC in Breast Cancer Histology Images
 
-Please document the project the better you can.
+- Authors: Jack Claar, Elizabeth Feldeverd, and Nadia Yap
+
+- Description: The objective of this project is to identify invasive ductal carcinoma (IDC) within breast histology images using a
+Convolutional Neural Network (CNN) model. This project was completed as part of the Le Wagon Tokyo Data Science course (Batch #728).
+
+- Data Source: Whole-slide breast cancer specimens at 40X were originally obtained and annotated by Cruz-Roa et al. (2014). For this project, we used the smaller "Breast Histology Images" dataset available on Kaggle.
+
+- Type of analysis: Our model determines the probability of IDC using a CNN model. The probabilities are then used to generate a heatmap using Grad CAM.
 
 # Startup the project
 
@@ -72,3 +76,14 @@ mkdir tmp
 cd tmp
 idc-run
 ```
+# References
+
+"Breast Histology Images" dataset from Kaggle: https://www.kaggle.com/simjeg/lymphoma-subtype-classification-fl-vs-cll.
+
+Chollet, F. (2020). Grad-CAM class activation visualization. https://keras.io/examples/vision/grad_cam/
+
+Cruz-Roa, A., Basavanhally, A., González, F.A., Gilmore, H., Feldman, M.D., Ganesan, S., Shih, N., Tomaszeweski, J.E., & Madabhushi, A. (2014). Automatic detection of invasive ductal carcinoma in whole slide images with convolutional neural networks. Medical Imaging. DOI:10.1117/12.2043872
+
+Janowczyk, A. (2015). USE CASE 6: INVASIVE DUCTAL CARCINOMA (IDC) SEGMENTATION. http://www.andrewjanowczyk.com/use-case-6-invasive-ductal-carcinoma-idc-segmentation/
+
+Janowczyk, A., & Madabhushi, A. (2016). Deep learning for digital pathology image analysis: A comprehensive tutorial with selected use cases. Journal of pathology informatics, 7, 29. DOI: 10.4103/2153-3539.186902
