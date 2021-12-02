@@ -8,11 +8,7 @@ Convolutional Neural Network (CNN) model. The probabilities determined by the mo
 
 - Data Source: Whole-slide breast cancer specimens at 40X were originally obtained and annotated by Cruz-Roa et al. (2014). For this project, we used the smaller "Breast Histology Images" dataset available on Kaggle.
 
-- Performance:
-Recall:             0.84964
-Precision:          0.74089
-F1 score:           0.79155
-Balanced Accuracy:  0.77427
+- Performance: Our model can detect IDC with 84.9% recall and 74.1% precision. The F1 score is 0.792 and the balanced accuracy is 0.774.
 
 - This project was completed as part of the Le Wagon Tokyo Data Science course (Batch #728). This model is for educational purposes only and should not be used as a diagnostic tool.
 
