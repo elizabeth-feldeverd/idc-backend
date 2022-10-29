@@ -17,6 +17,7 @@ jupyter = "^1.0.0"
 black = "^22.10.0"
 pylint = "^2.15.5"
 isort = "^5.10.1"
+dvc = "^2.31.0"
 
 
 [build-system]
