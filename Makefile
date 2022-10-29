@@ -1,21 +1,14 @@
 # ----------------------------------
 #          INSTALL & TEST
 # ----------------------------------
-install_requirements:
-	@pip install -r requirements.txt
 
-check_code:
-	@flake8 scripts/* idc/*.py
-
-black:
-	@black scripts/* idc/*.py
+format:
+	@poetry run black app/* idc/*.py
+	@poetry run isort app/* idc/*.py
 
 test:
 	@coverage run -m pytest tests/*.py
 	@coverage report -m --omit="${VIRTUAL_ENV}/lib/python*"
-
-ftest:
-	@Write me
 
 clean:
 	@rm -f */version.txt
@@ -26,9 +19,7 @@ clean:
 	@rm -fr idc.egg-info
 
 install:
-	@pip install . -U
-
-all: clean install test black check_code
+	@poetry install
 
 count_lines:
 	@find ./ -name '*.py' -exec  wc -l {} \; | sort -n| awk \

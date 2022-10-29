@@ -1,14 +1,15 @@
-from fastapi import FastAPI, File, UploadFile
-from fastapi.middleware.cors import CORSMiddleware
-from tensorflow.keras.models import load_model
-import numpy as np
-from PIL import Image
-from idc.processing import split, stitch
-from idc.gradcam import make_heatmap, superimpose_heatmap
-from idc.report import model_report, recommend
-from google.cloud import storage
 import uuid
 
+import numpy as np
+from fastapi import FastAPI, File, UploadFile
+from fastapi.middleware.cors import CORSMiddleware
+from google.cloud import storage
+from PIL import Image
+from tensorflow.keras.models import load_model
+
+from idc.gradcam import make_heatmap, superimpose_heatmap
+from idc.processing import split, stitch
+from idc.report import model_report, recommend
 
 app = FastAPI()
 model = load_model("model.h5")

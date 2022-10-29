@@ -1,7 +1,7 @@
+import matplotlib.cm as cm
 import numpy as np
 import tensorflow as tf
 from tensorflow.keras.layers import Resizing
-import matplotlib.cm as cm
 
 # import matplotlib.pyplot as plt
 
