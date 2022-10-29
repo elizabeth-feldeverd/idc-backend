@@ -19,6 +19,8 @@ pylint = "^2.15.5"
 isort = "^5.10.1"
 dvc = "^2.31.0"
 dvc-gdrive = "^2.19.0"
+pandas = "^1.5.1"
+sklearn = "^0.0"
 
 
 [build-system]
