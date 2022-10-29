@@ -1,2 +1,4 @@
+[core]
+    remote = idc_backend
 ['remote "idc_backend"']
     url = gdrive://1axdPguGXI77S8MmJRMxn-nyGpiSzRwDp
