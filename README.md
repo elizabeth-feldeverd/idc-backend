@@ -22,7 +22,7 @@ After cloning the repository, install dependencies by using:
 poetry install
 ```
 
-[DVC](https://dvc.org/) is used to version data and models. If you want to train your own model, the easiest open is to access the data directly from Kaggle. However, if you would like access to the data and models stored remotely in a private Google drive, just contact me.
+[DVC](https://dvc.org/) is used to version data and models. If you want to train your own model, the easiest option is to download the data directly from Kaggle. However, if you would like access to the data and models stored remotely in a private Google drive, just contact me.
 
 
 # References
